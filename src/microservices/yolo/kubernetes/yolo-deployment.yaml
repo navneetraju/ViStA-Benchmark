@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: object-detection
+spec:
+  selector:
+    matchLabels:
+      app: object-detection
+  template:
+    metadata:
+      labels:
+        app: object-detection
+    spec:
+      containers:
+      - name: object-detection
+        image: navneetraju/video_benchmark:object_detection
+        imagePullPolicy: Always
+        env:
+          - name: RMQ_ADDR
+            value: rabbitmq.rabbits.svc.cluster.local
+          - name: STREAM_ADDR
+            value: 10.10.1.146
+          - name: DB_API_ADDR
+            value: db-api-service
+          - name: DB_API_PORT
+            value: '80'
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: host-test-mount
+            mountPath: /tmp
+      volumes:
+        - name: host-test-mount
+          hostPath:
+              path: /mnt/test
+
+

@@ -1,0 +1,6 @@
+fastapi
+pydantic
+typing
+pika
+requests
+python-multipart

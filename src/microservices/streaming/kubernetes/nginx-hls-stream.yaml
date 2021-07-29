@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-stream
+spec:
+  selector:
+    matchLabels:
+      app: nginx-stream
+  template:
+    metadata:
+      labels:
+        app: nginx-stream
+    spec:
+      containers:
+      - name: nginx-stream
+        image: navneetraju/video_benchmark:stream
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: host-test-mount
+            mountPath: /usr/share/nginx/
+      volumes:
+        - name: host-test-mount
+          hostPath:
+              path: /mnt/test
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-stream-service
+spec:
+  selector:
+    app: nginx-stream
+  ports:
+  - port: 80
+    targetPort: 80
+

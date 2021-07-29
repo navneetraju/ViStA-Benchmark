@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-exporter-service
+spec:
+  selector:
+    app: rabbitmq-exporter
+  ports:
+  - port: 9419 
+    targetPort: 9419

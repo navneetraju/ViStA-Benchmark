@@ -1,0 +1,8 @@
+pika
+requests
+pydub
+SpeechRecognition
+moviepy
+pocketsphinx
+
+

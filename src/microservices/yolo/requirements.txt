@@ -1,0 +1,6 @@
+pika
+requests
+imutils
+scikit-build
+opencv-python
+numpy

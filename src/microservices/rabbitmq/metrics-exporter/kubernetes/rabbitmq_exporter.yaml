@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-exporter
+  labels:
+    app: rabbitmq-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-exporter
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-exporter
+    spec:
+      containers:
+      - image: kbudde/rabbitmq-exporter
+        name: rabbitmq-metrics-provider
+        env:
+        - name: RABBIT_URL
+          value: http://rabbitmq.rabbits.svc.cluster.local:15672
+        ports:
+        - name: http
+          containerPort: 9419

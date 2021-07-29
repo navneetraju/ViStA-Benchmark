@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchestrator
+spec:
+  selector:
+    matchLabels:
+      app: orchestrator
+  template:
+    metadata:
+      labels:
+        app: orchestrator
+    spec:
+      containers:
+      - name: orchestrator
+        image: navneetraju/video_benchmark:orch
+        imagePullPolicy: Always
+        env:
+          - name: DB_API_ADDR
+            value: db-api-service
+          - name: DB_API_PORT
+            value: '80'
+          - name: RMQ_ADDR
+            value: rabbitmq.rabbits.svc.cluster.local
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: host-test-mount
+            mountPath: /tmp
+      volumes:
+        - name: host-test-mount
+          hostPath:
+              path: /mnt/test
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: orchestrator-service
+spec:
+  selector:
+    app: orchestrator
+  ports:
+  - port: 80
+    targetPort: 80

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-api
+spec:
+  selector:
+    matchLabels:
+      app: database-api
+  template:
+    metadata:
+      labels:
+        app: database-api
+    spec:
+      containers:
+      - name: database-api
+        image: navneetraju/video_benchmark:db_api
+        imagePullPolicy: Always
+        env:
+          - name: MONGO_SERVER_IP
+            value: mongo-0.mongodb.mongo.svc.cluster.local,mongo-1.mongodb.mongo.svc.cluster.local,mongo-2.mongodb.mongo.svc.cluster.local
+          - name: REDIS_SERVER_IP
+            value: redis-headless.redis.svc.cluster.local
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-api-service
+spec:
+  selector:
+    app: database-api
+  ports:
+  - port: 80
+    targetPort: 80

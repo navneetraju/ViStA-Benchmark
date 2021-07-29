@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hls-gen
+spec:
+  selector:
+    matchLabels:
+      app: hls-gen
+  template:
+    metadata:
+      labels:
+        app: hls-gen
+    spec:
+      containers:
+      - name: hls-gen
+        image: navneetraju/video_benchmark:hls_gen
+        imagePullPolicy: Always
+        env:
+          - name: RMQ_ADDR
+            value: rabbitmq.rabbits.svc.cluster.local
+          - name: STREAM_ADDR
+            value: 10.10.1.146
+          - name: DB_API_ADDR
+            value: db-api-service
+          - name: DB_API_PORT
+            value: '80'
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: host-test-mount
+            mountPath: /tmp
+      volumes:
+        - name: host-test-mount
+          hostPath:
+              path: /mnt/test
+
+
