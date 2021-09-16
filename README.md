@@ -17,9 +17,15 @@ The ViStA benchmark consists of the following microservices:
 8. MongoDB - Storage of analytics results (or path of encoded HLS files)
 9. Redis - Caching mechanism
 
+## Prerequistes
+
+Kubernetes single node cluster with Linkerd service mesh and prometheus service running. 
+
+#### Note: This project only supports Kubernetes *single node* cluster.
+
 ### Setup instructions:
 
-This project only supports Kubernetes *single node* cluster.
+
 
 Linkerd and Prometheus:
 - The current implementation uses a [Linkerd](https://linkerd.io/) service mesh for reliability, observaility and for ease of request tracing.
